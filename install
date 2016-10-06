@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Get SOURCE_DIR resolving symbolic links
+# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in/246128#246128
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  SOURCE_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  # LP: modified to append path correctly when SOURCE_DIR is "/"
+  [[ $SOURCE != /* ]] && SOURCE="${SOURCE_DIR%\/}/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+SOURCE_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+[[ $1 == "-v" ]] && VERBOSE=-v
+
+[ -e "$SOURCE_DIR/linux" ]      || git clone https://github.com/louispan/esoteric-linux.git      "$SOURCE_DIR/linux"
+[ -e "$SOURCE_DIR/osx" ]        || git clone https://github.com/louispan/esoteric-osx.git        "$SOURCE_DIR/osx"
+[ -e "$SOURCE_DIR/bash" ]       || git clone https://github.com/louispan/esoteric-bash.git       "$SOURCE_DIR/bash"
+[ -e "$SOURCE_DIR/git" ]        || git clone https://github.com/louispan/esoteric-git.git        "$SOURCE_DIR/git"
+[ -e "$SOURCE_DIR/haskell" ]    || git clone https://github.com/louispan/esoteric-haskell.git    "$SOURCE_DIR/haskell"
+[ -e "$SOURCE_DIR/hijackey" ]   || git clone https://github.com/louispan/hijackey.git            "$SOURCE_DIR/hijackey"
+
+"$SOURCE_DIR/linux/install" $VERBOSE
+"$SOURCE_DIR/osx/install" $VERBOSE
+"$SOURCE_DIR/bash/install" $VERBOSE
+"$SOURCE_DIR/git/install" $VERBOSE
+"$SOURCE_DIR/haskell/install" $VERBOSE
+# install hijackey last as it depends on vim and emacs
+"$SOURCE_DIR/hijackey/install" $VERBOSE
+
+[ -e "$HOME/.vim/bundle/Vundle.vim" ]   || git clone https://github.com/VundleVim/Vundle.vim.git "$HOME/.vim/bundle/Vundle.vim"
+cp "$SOURCE_DIR/etc/.vimrc" "$HOME/.vimrc"
+cp "$SOURCE_DIR/etc/.emacs" "$HOME/.emacs"
