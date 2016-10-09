@@ -1,4 +1,4 @@
-Opininated bashrc and dev environment.
+Opinionated bashrc and dev environment.
 
 Uses hijackey (https://github.com/louispan/hijackey) to enable more key combinations in the terminal, vim, and emacs.
 
