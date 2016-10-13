@@ -22,11 +22,13 @@ SOURCE_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 "$SOURCE_DIR/linux/install" $VERBOSE
 "$SOURCE_DIR/osx/install" $VERBOSE
-"$SOURCE_DIR/bash/install" $VERBOSE
 "$SOURCE_DIR/git/install" $VERBOSE
 "$SOURCE_DIR/haskell/install" $VERBOSE
 # install hijackey last as it depends on vim and emacs
 "$SOURCE_DIR/hijackey/install" $VERBOSE
+
+# install bash last so that the bash source scripts are last
+"$SOURCE_DIR/bash/install" $VERBOSE
 
 [ -e "$HOME/.vim/bundle/Vundle.vim" ]   || git clone https://github.com/VundleVim/Vundle.vim.git "$HOME/.vim/bundle/Vundle.vim"
 cp "$SOURCE_DIR/etc/.vimrc" "$HOME/.vimrc"
