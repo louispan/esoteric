@@ -34,6 +34,9 @@
 (face-spec-set 'region '((t (:background "#2247c4"))))
 (face-spec-set 'hl-line '((t (:background "#505050"))))
 (sml/setup)
+;; fix for xterm-color package breakages
+;; https://github.com/syl20bnr/spacemacs/issues/7393
+(fset 'xterm-color-unfontify-region 'font-lock-default-unfontify-region)
 ;; ;; (esoteric-distinct-fringe-with 0.05)
 ;; ;; (esoteric-fix-region-distant-foreground)
 
